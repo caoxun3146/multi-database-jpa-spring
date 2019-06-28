@@ -16,6 +16,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class AccountTests {
 
+    /**
+     * 新增注释
+     */
     @Autowired
     private AccountRepository accountRepository;
 
