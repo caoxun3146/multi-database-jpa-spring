@@ -1,0 +1,33 @@
+# 多数据源配置
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  primary:
+    datasource:
+      jdbc-url: jdbc:mysql://rm-uf6h9e68kb6607379ho.mysql.rds.aliyuncs.com:3306/quzhuanxiang?characterEncoding=utf8&useSSL=true&serverTimezone=GMT
+      username: starbaba
+      password: '!Q2w#E4r%t'
+      #driver-class-name: com.mysql.jdbc.Driver
+
+#secondary
+  secondary:
+    datasource:
+      jdbc-url: jdbc:mysql://rm-uf6h9e68kb6607379ho.mysql.rds.aliyuncs.com:3306/activity?characterEncoding=utf8&useSSL=true&serverTimezone=GMT
+      username: starbaba
+      password: '!Q2w#E4r%t'
+      #driver-class-name: com.mysql.jdbc.Driver
+
+# jpa 配置
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  generate-ddl: false
+  thymeleaf:
+    prefix: classpath:/templates/
+  resources:
+    static-locations: classpath:templates/,classpath:static/
+
+# 端口配置,  默认8080
+server:
+  port: 8080
