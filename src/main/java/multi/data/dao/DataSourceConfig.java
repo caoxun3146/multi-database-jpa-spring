@@ -17,11 +17,16 @@ import javax.sql.DataSource;
 public class DataSourceConfig {
     @Bean(name = "primaryDataSource")
     @Qualifier("primaryDataSource")
+    //@Primary
     @ConfigurationProperties(prefix="spring.primary.datasource")
     public DataSource primaryDataSource() {
         return DataSourceBuilder.create().build();
     }
 
+    /**
+     * 数据库 : activity
+     * @return
+     */
     @Bean(name = "secondaryDataSource")
     @Qualifier("secondaryDataSource")
     @Primary
@@ -29,5 +34,16 @@ public class DataSourceConfig {
     public DataSource secondaryDataSource() {
         return DataSourceBuilder.create().build();
     }
+
+    /**
+     * 数据库: quzhuanxiang_account
+     * @return
+     */
+/*    @Bean(name = "tertiaryDataSource")
+    @Qualifier("tertiaryDataSource")
+    @ConfigurationProperties(prefix="spring.tertiary.datasource")
+    public DataSource tertiaryDataSource() {
+        return DataSourceBuilder.create().build();
+    }*/
 
 }
