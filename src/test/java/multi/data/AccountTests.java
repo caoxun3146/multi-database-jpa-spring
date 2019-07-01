@@ -26,7 +26,8 @@ public class AccountTests {
 
     @Test
     public void getUserInfo(){
-        Account account = accountRepository.findByTbId("1953957034");
+        byte bt = 1 ;
+        Account account = accountRepository.findByPrdIdAndTbIdAndStatus("14000","1953957034",bt);
         logger.info("====================" );
         logger.info("-----------------------" + JSON.toJSONString(account, true));
     }

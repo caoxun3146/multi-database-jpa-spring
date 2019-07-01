@@ -17,6 +17,14 @@ spring:
       password: '!Q2w#E4r%t'
       #driver-class-name: com.mysql.jdbc.Driver
 
+#tertiary
+  tertiary:
+    datasource:
+      jdbc-url: jdbc:mysql://rm-uf6h9e68kb6607379ho.mysql.rds.aliyuncs.com:3306/quzhuanxiang_account?characterEncoding=utf8&useSSL=true&serverTimezone=GMT
+      username: starbaba
+      password: '!Q2w#E4r%t'
+      #driver-class-name: com.mysql.jdbc.Driver
+
 # jpa 配置
   jpa:
     hibernate:
