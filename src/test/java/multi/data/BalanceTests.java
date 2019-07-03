@@ -1,6 +1,7 @@
 package multi.data;
 
 import com.alibaba.fastjson.JSON;
+import multi.data.dao.model.tertiary.Balance;
 import multi.data.dao.repo.tertiary.TertiaryRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,5 +23,13 @@ public class BalanceTests {
     public void getBalanceInfo(){
         logger.info("-----------------------" + JSON.toJSONString(tertiaryRepository.findByUserId(662519), true));
 
+    }
+
+    @Test
+    public void updateBalance(){
+        Balance balance = tertiaryRepository.findByUserId(662519);
+        double db = 12;
+        balance.setBalance(db);
+        tertiaryRepository.save(balance);
     }
 }

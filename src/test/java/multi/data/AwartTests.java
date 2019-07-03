@@ -1,7 +1,6 @@
 package multi.data;
 
 import com.alibaba.fastjson.JSON;
-import multi.data.controller.AccountController;
 import multi.data.dao.model.secondary.Award;
 import multi.data.dao.repo.secondary.AwardRepository;
 import org.junit.Test;
@@ -25,6 +24,7 @@ public class AwartTests {
     @Test
     public void getAwardInfo(){
         List<Award> awardList = awardRepository.findByPhoneId("0776f3c9876341ad");
+
         logger.info("-----------------------" + JSON.toJSONString(awardList, true));
     }
 }
