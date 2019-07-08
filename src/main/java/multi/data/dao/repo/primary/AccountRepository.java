@@ -1,5 +1,6 @@
 package multi.data.dao.repo.primary;
 
+
 import multi.data.dao.model.primary.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 

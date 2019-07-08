@@ -1,13 +1,11 @@
 package multi.data.dao.model.primary;
 
-
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "qu_account")
 public class Account {
@@ -31,5 +29,71 @@ public class Account {
     public Account() {
 
     }
+
+
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    /*@OneToMany(targetEntity = Account.class,cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},fetch = FetchType.EAGER)
+    @JoinColumn(name="user_id")//注释的是另一个表指向本表的外键。*/
+    //简化被动方,手动维护外键ID
+    @JsonIgnore // 在json序列化时将java bean中的一些属性忽略掉，序列化和反序列化都受影响。
+    private List<UserOrder> userOrders = new ArrayList<>();
+
+    public void addAccount(UserOrder userOrder) {
+        userOrder.setAccount(this);
+        userOrders.add(userOrder);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getPhoneId() {
+        return phoneId;
+    }
+
+    public void setPhoneId(String phoneId) {
+        this.phoneId = phoneId;
+    }
+
+    public String getTbId() {
+        return tbId;
+    }
+
+    public void setTbId(String tbId) {
+        this.tbId = tbId;
+    }
+
+
+    public String getPrdId() {
+        return prdId;
+    }
+
+    public void setPrdId(String prdId) {
+        this.prdId = prdId;
+    }
+
+
+    public byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(byte status) {
+        this.status = status;
+    }
+
+
+    //@JsonIgnore
+    public List<UserOrder> getUserOrders() {
+        return userOrders;
+    }
+
+    public void setUserOrders(List<UserOrder> userOrders) {
+        this.userOrders = userOrders;
+    }
+
 
 }
