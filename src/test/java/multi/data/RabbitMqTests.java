@@ -1,6 +1,6 @@
 package multi.data;
 
-import multi.data.dao.service.mq.Sender;
+import multi.data.mq.Sender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package multi.data.dao.service.mq;
+package multi.data.mq;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;

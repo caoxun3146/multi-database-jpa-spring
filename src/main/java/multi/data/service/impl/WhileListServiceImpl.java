@@ -1,8 +1,8 @@
-package multi.data.dao.service.impl;
+package multi.data.service.impl;
 
 import multi.data.dao.model.primary.WhileList;
 import multi.data.dao.repo.primary.WhileListRepository;
-import multi.data.dao.service.service.WhileListService;
+import multi.data.service.service.WhileListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;

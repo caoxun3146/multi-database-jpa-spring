@@ -1,8 +1,8 @@
-package multi.data.dao.service.impl;
+package multi.data.service.impl;
 
 import multi.data.dao.model.primary.AlimamaOrder;
 import multi.data.dao.repo.primary.AlimamaOrderRepository;
-import multi.data.dao.service.service.AlimamaOrderService;
+import multi.data.service.service.AlimamaOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

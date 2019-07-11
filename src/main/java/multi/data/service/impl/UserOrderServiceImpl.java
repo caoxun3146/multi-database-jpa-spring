@@ -1,8 +1,8 @@
-package multi.data.dao.service.impl;
+package multi.data.service.impl;
 
 import multi.data.dao.model.primary.UserOrder;
 import multi.data.dao.repo.primary.UserOrderRepository;
-import multi.data.dao.service.service.UserOrderService;
+import multi.data.service.service.UserOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

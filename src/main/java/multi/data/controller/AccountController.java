@@ -7,7 +7,7 @@ import multi.data.dao.model.primary.AlimamaOrder;
 import multi.data.dao.model.primary.Settlement;
 import multi.data.dao.repo.primary.AccountRepository;
 import multi.data.dao.repo.primary.SettlementRepository;
-import multi.data.dao.service.service.AlimamaOrderService;
+import multi.data.service.service.AlimamaOrderService;
 import multi.data.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

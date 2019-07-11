@@ -1,6 +1,6 @@
-package multi.data.dao.service.impl;
+package multi.data.service.impl;
 
-import multi.data.dao.service.service.RedisService;
+import multi.data.service.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;

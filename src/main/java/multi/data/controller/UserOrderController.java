@@ -2,7 +2,7 @@ package multi.data.controller;
 
 import com.alibaba.fastjson.JSON;
 import multi.data.dao.model.primary.UserOrder;
-import multi.data.dao.service.service.UserOrderService;
+import multi.data.service.service.UserOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

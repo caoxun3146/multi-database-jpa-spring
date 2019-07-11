@@ -1,8 +1,8 @@
-package multi.data.dao.service.impl;
+package multi.data.service.impl;
 
 import multi.data.dao.model.primary.Account;
 import multi.data.dao.repo.primary.AccountRepository;
-import multi.data.dao.service.service.AccountService;
+import multi.data.service.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

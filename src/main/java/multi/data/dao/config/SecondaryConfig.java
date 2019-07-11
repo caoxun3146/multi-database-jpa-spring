@@ -1,4 +1,4 @@
-package multi.data.dao.service.config;
+package multi.data.dao.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -1,4 +1,4 @@
-package multi.data.dao.service.service;
+package multi.data.service.service;
 
 /**
  * 在包里创建RedisService接口，在这个接口定义了一些redis的基本操作。在这里我把所有存取操作都封装成了基于json字符串完成，

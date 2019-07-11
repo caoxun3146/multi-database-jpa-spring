@@ -1,4 +1,4 @@
-package multi.data.dao.service.service;
+package multi.data.service.service;
 
 
 import multi.data.dao.model.primary.UserOrder;
