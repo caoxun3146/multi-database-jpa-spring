@@ -1,4 +1,4 @@
-package multi.data.dao;
+package multi.data.dao.service.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
