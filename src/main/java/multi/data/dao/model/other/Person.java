@@ -1,4 +1,4 @@
-package multi.data.dao.model.primary;
+package multi.data.dao.model.other;
 
 
 import lombok.Getter;

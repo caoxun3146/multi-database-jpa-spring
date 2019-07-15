@@ -1,5 +1,6 @@
 package multi.data.mq;
 
+import multi.data.dao.model.other.RabbitUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -18,7 +19,12 @@ public class Receiver {
     private final static Logger logger = LoggerFactory.getLogger(Receiver.class);
 
     @RabbitHandler
-    public void process(String Str) {
-        logger.info("消费者 ============== 接收消息：" + Str + ":" + new Date());
+    public void process(RabbitUser rabbitUser) {
+        logger.info("消费者 =============== " + rabbitUser + ":" + new Date());
     }
+
+   /* @RabbitHandler
+    public void process(String Str) {
+        logger.info("消费者 =============== " + Str + ":" + new Date());
+    }*/
 }

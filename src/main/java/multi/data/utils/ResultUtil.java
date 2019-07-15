@@ -1,7 +1,7 @@
 package multi.data.utils;
 
 
-import multi.data.dao.model.primary.Result;
+import multi.data.dao.model.other.Result;
 
 public class ResultUtil {
     public static Result success(Object object) {

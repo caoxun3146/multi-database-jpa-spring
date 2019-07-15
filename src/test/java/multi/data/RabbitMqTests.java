@@ -1,5 +1,6 @@
 package multi.data;
 
+import multi.data.dao.model.other.RabbitUser;
 import multi.data.mq.Sender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ public class RabbitMqTests {
 
     @Test
     public void SenderDemo(){
-        sender.send("6");
+        RabbitUser rabbitUser = new RabbitUser("张三","pass123456");
+        sender.send(rabbitUser);
     }
 }

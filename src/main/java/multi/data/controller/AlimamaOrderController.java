@@ -2,7 +2,7 @@ package multi.data.controller;
 
 import com.alibaba.fastjson.JSON;
 import multi.data.dao.model.primary.AlimamaOrder;
-import multi.data.dao.model.primary.Result;
+import multi.data.dao.model.other.Result;
 import multi.data.service.service.AlimamaOrderService;
 import multi.data.utils.ResultUtil;
 import org.slf4j.Logger;

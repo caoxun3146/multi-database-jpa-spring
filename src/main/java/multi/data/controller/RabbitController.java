@@ -1,5 +1,6 @@
 package multi.data.controller;
 
+import multi.data.dao.model.other.RabbitUser;
 import multi.data.mq.Sender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,8 @@ public class RabbitController {
 
     @GetMapping(value = "/sender/{name}")
     public String sender(@PathVariable("name") String name){
-        sender.send(name);
+        RabbitUser rabbitUser = new RabbitUser("张三","test111111");
+        sender.send(rabbitUser);
         return "success";
     }
 }

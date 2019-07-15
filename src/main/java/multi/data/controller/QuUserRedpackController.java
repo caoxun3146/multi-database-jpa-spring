@@ -1,7 +1,7 @@
 package multi.data.controller;
 
 import multi.data.dao.model.primary.QuUserRedpack;
-import multi.data.dao.model.primary.Result;
+import multi.data.dao.model.other.Result;
 import multi.data.dao.repo.primary.QuUserRedpackRepository;
 import multi.data.utils.ResultUtil;
 import org.slf4j.Logger;
