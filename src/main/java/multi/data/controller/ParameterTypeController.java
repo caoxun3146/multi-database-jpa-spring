@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -26,8 +27,7 @@ public class ParameterTypeController {
     @PostMapping(value = "/json")
     @ResponseBody
     public JsonParameter Mjson(@RequestBody JsonParameter jp) {
-        logger.info("----------------------- " + jp.getName() + "," + jp.getPassword() + ": " + JSON.toJSONString(jp,true));
-
+        logger.info("----------------------- " + JSON.toJSONString(jp,true));
         return jp;
     }
 
@@ -35,12 +35,14 @@ public class ParameterTypeController {
 /**
  *  表单参数
  */
-/*    @PostMapping(value = "/girls")
-    public Girl girlAdd(@RequestParam("cupSize") String cupSize,
-                        @RequestParam("age") Integer age) {
-        Girl girl = new Girl();
-        girl.setWeight(cupSize);
-        girl.setAge(age);
-        return girlRepository.save(girl);
-    }*/
+    @PostMapping(value = "/form")
+    @ResponseBody
+    public JsonParameter form(@RequestParam("name") String name,
+                        @RequestParam("password") String password) {
+                JsonParameter jsonParameter = new JsonParameter();
+                jsonParameter.setName(name);
+                jsonParameter.setPassword(password);
+                logger.info("-----------------------" + JSON.toJSONString(jsonParameter,true));
+        return jsonParameter;
+    }
 }
