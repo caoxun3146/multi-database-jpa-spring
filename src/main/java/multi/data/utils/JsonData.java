@@ -1,58 +1,16 @@
 package multi.data.utils;
 
 public class JsonData {
-    public static String getJsonData(String token, String orderId, String prdID) {
-        //先随机产生一个下标再获取元素
-        String[] doc = {"42142928863", "537927930917", "585330318155", "566887134978", "570255080929", "587696673371", "569659673792", "571333052971", "589856801859", "587206669150"};
-        int index = (int) (Math.random() * doc.length);
-        String sourceID = doc[index];
+    public static String getJsonData(String token, String orderId, String prdID, String sourceID) {
 
         // "is_match":1  新增需要匹配
-        String parametersOld = "{\n" +
-                "    \"data\": {\n" +
-                "        \"phead\": {\n" +
-                "            \"pversion\": 1,\n" +
-                "            \"phoneid\": \"18f3361f10026864\",\n" +
-                "            \"imei\": \"866002023242653\",\n" +
-                "            \"cversion\": 77,\n" +
-                "            \"cversionname\": \"1.0\",\n" +
-                "            \"channel\": 91000,\n" +
-                "            \"lang\": \"en_us\",\n" +
-                "            \"local\": \"us\",\n" +
-                "            \"sdk\": 0,\n" +
-                "            \"imsi\": \"46000\",\n" +
-                "            \"sys\": \"4.0.1\",\n" +
-                "            \"lng\": 113.34196,\n" +
-                "            \"lat\": 23.138443,\n" +
-                "            \"cityid\": \"440100\",\n" +
-                "            \"gcityid\": \"440100\",\n" +
-                "            \"platform\": \"ios\",\n" +
-                "            \"prdid\": \"" + prdID + "\",\n" +
-                "            \"advid\": \"0118B355-9A0B-49C2-A779-0B9145AE6CF0\",\n" +
-                "            \"time_zone\": \"EST\",\n" +
-                "            \"timezoneid\": \"Australia/Sydney\",\n" +
-                "            \"user_create_time\": \"2016-08-03 16:53:25\",\n" +
-                "            \"phone_number\": \"17347219418\",\n" +
-                "            \"access_token\": \"" + token + "\"\n" +
-                "        },\n" +
-                "        \"is_zero\": \"1\",\n" +
-                "        \"source_id\": \"" + sourceID + "\",\n" +
-                "        \"orderId\": \"" + orderId + "\",\n" +
-                "        \"fromMall\": 0,\n" +
-                "        \"type\":2,\n" +
-                "        \"orderActivityId\":1\n" +
-                "    },\n" +
-                "    \"shandle\": \"0\",\n" +
-                "    \"handle\": \"0\"\n" +
-                "}";
-
         String parameters = "{\n" +
                 "\"handle\": 0,\n" +
                 "\"shandle\": 0,\n" +
                 "\"data\": {\n" +
                 "\"phead\": {\n" +
                 "\"pversion\": 88,\n" +
-                "\"phoneid\": \"77bac9b6a7cfab56\",\n" +
+                "\"phoneid\": \"18f3361f10003442\",\n" +
                 "\"phone\": \"M A5\",\n" +
                 "\"imei\": \"866746033563041\",\n" +
                 "\"cversion\": 132,\n" +
@@ -97,8 +55,8 @@ public class JsonData {
                 "}\n" +
                 "}";
 
-
         return parameters;
     }
+
 
 }

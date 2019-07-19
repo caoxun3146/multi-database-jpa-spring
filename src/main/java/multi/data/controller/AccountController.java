@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 
 import multi.data.dao.model.primary.Account;
 import multi.data.dao.model.primary.AlimamaOrder;
+import multi.data.dao.model.primary.Commodity;
 import multi.data.dao.model.primary.Settlement;
 import multi.data.dao.repo.primary.AccountRepository;
 import multi.data.dao.repo.primary.SettlementRepository;
 import multi.data.service.service.AlimamaOrderService;
+import multi.data.service.service.CommodityService;
 import multi.data.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,9 @@ public class AccountController {
     private SettlementRepository settlementRepository;
     @Autowired
     private AlimamaOrderService alimamaOrderService;
+
+    @Autowired
+    private CommodityService commodityService;
 
     private final static Logger logger = LoggerFactory.getLogger(AccountController.class);
 
@@ -96,7 +101,9 @@ public class AccountController {
         }
         String token = AccessToken.getAccessToken(account.getId()); // 获取token
         String orderId = RandomNumbers.getOrder(); // 生成订单号
-        String jsonParameters = JsonData.getJsonData(token, orderId, prdID);  // 生成请求数据
+
+        String sourceId = SourceIdUtil.getSourceId(); // 随机获取 1 个商品ID
+        String jsonParameters = JsonData.getJsonData(token, orderId, prdID,sourceId);  // 生成请求数据
         String URL = "http://test.vipgift.gmilesquan.com/quMall/common?funid=30101";  // 下单接口
         String result = HttpClientUtil.SendHttpRequest("POST", URL, jsonParameters); // 提交下单请求, 获得响应结果
 
@@ -119,14 +126,25 @@ public class AccountController {
     public String Purchase(@PathVariable("tbID") String tbID, @PathVariable("prdID") String prdID) throws IOException {
 
         String orderId = RandomNumbers.getOrder(); // 生成订单号
+        String sourceId = SourceIdUtil.getSourceId(); // 随机获取 1 个商品ID
+        Commodity commodity = commodityService.findCommodityInfo(sourceId); // 查询商品信息 : 返利比例 , 实际价格
+        logger.info("-----------------------" + commodity.getCouponFinalPrice() +"," + commodity.getTkRate() + "sourceID: " + sourceId);
+        String payment = String.valueOf(commodity.getCouponFinalPrice());
 
         /** 生成一条阿里妈妈订单数据, 订单id 和 商品id 与30301接口上传值保持一致 **/
         AlimamaOrder alimamaOrder = new AlimamaOrder(new Date(), new Date(), "运动耳机", 525694095950L, "华胜天齐数码专营店", "华胜天齐数码专营店",
+                1, "88.00", "订单付款", "天猫", commodity.getTkRate()+" %", "100.00 %", payment, "6.00",
+                "0.00", "0.00", commodity.getTkRate()+" %", "0", "0.00 %", "0", "-", "无线",
+                "--", orderId,
+                "影音电器", "45368612", "趣专享", "23950950016", "趣专享高佣", "953470", new Date(), new Date(), 0);
+        alimamaOrderService.saveAlimamaOrder(alimamaOrder);
+
+     /*   AlimamaOrder alimamaOrder = new AlimamaOrder(new Date(), new Date(), "运动耳机", 525694095950L, "华胜天齐数码专营店", "华胜天齐数码专营店",
                 1, "88.00", "订单付款", "天猫", "30.01 %", "100.00 %", "19.9900", "6.00",
                 "0.00", "0.00", "30.01 %", "0", "0.00 %", "0", "-", "无线",
                 "--", orderId,
                 "影音电器", "45368612", "趣专享", "23950950016", "趣专享高佣", "953470", new Date(), new Date(), 0);
-        alimamaOrderService.saveAlimamaOrder(alimamaOrder);
+        alimamaOrderService.saveAlimamaOrder(alimamaOrder);*/
 
 
         /** 调30301接口上传百川回调数据至用户订单表 **/
@@ -138,7 +156,7 @@ public class AccountController {
         }
         String token = AccessToken.getAccessToken(account.getId()); // 获取token
 
-        String jsonParameters = JsonData.getJsonData(token, orderId, prdID);  // 生成请求数据
+        String jsonParameters = JsonData.getJsonData(token, orderId, prdID,sourceId);  // 生成请求数据
         String URL = "http://test.vipgift.gmilesquan.com/quMall/common?funid=30101";  // 下单接口
         String result = HttpClientUtil.SendHttpRequest("POST", URL, jsonParameters); // 提交下单请求, 获得响应结果
 
@@ -159,13 +177,25 @@ public class AccountController {
 
         String orderId = RandomNumbers.getOrder(); // 生成订单号
 
+        String sourceId = SourceIdUtil.getSourceId(); // 随机获取 1 个商品ID
+        Commodity commodity = commodityService.findCommodityInfo(sourceId); // 查询商品信息 : 返利比例 , 实际价格
+        logger.info("-----------------------" + commodity.getCouponFinalPrice() +"," + commodity.getTkRate() + "sourceID: " + sourceId);
+        String payment = String.valueOf(commodity.getCouponFinalPrice());
+
         /** 生成一条阿里妈妈订单数据, 订单id 和 商品id 与30301接口上传值保持一致 **/
         AlimamaOrder alimamaOrder = new AlimamaOrder(new Date(), new Date(), "运动耳机", 525694095950L, "华胜天齐数码专营店", "华胜天齐数码专营店",
+                1, "88.00", "订单付款", "天猫", commodity.getTkRate()+" %", "100.00 %", payment, "6.00",
+                "0.00", "0.00", commodity.getTkRate()+" %", "0", "0.00 %", "0", "-", "无线",
+                "--", orderId,
+                "影音电器", "45368612", "趣专享", "23950950016", "趣专享高佣", "953470", new Date(), new Date(), 0);
+        alimamaOrderService.saveAlimamaOrder(alimamaOrder);
+
+     /*   AlimamaOrder alimamaOrder = new AlimamaOrder(new Date(), new Date(), "运动耳机", 525694095950L, "华胜天齐数码专营店", "华胜天齐数码专营店",
                 1, "88.00", "订单付款", "天猫", "30.01 %", "100.00 %", "19.9900", "6.00",
                 "0.00", "0.00", "30.01 %", "0", "0.00 %", "0", "-", "无线",
                 "--", orderId,
                 "影音电器", "45368612", "趣专享", "23950950016", "趣专享高佣", "953470", new Date(), new Date(), 0);
-        alimamaOrderService.saveAlimamaOrder(alimamaOrder);
+        alimamaOrderService.saveAlimamaOrder(alimamaOrder);*/
 
 
         /** 调30301接口上传百川回调数据至用户订单表 **/
@@ -176,8 +206,7 @@ public class AccountController {
             return "返回对象为空" + account;
         }
         String token = AccessToken.getAccessToken(account.getId()); // 获取token
-
-        String jsonParameters = JsonData.getJsonData(token, orderId, account.getPrdId());  // 生成请求数据
+        String jsonParameters = JsonData.getJsonData(token, orderId, account.getPrdId(),sourceId);  // 生成请求数据
         String URL = "http://test.vipgift.gmilesquan.com/quMall/common?funid=30101";  // 下单接口
         String result = HttpClientUtil.SendHttpRequest("POST", URL, jsonParameters); // 提交下单请求, 获得响应结果
 
