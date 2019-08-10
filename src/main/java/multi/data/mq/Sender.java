@@ -17,14 +17,14 @@ import java.util.Date;
 public class Sender {
     private final static Logger logger = LoggerFactory.getLogger(Sender.class);
 
-    @Autowired
+  /*  @Autowired
     private AmqpTemplate amqpTemplate;
-
-    public String send(RabbitUser rabbitUser){
+*/
+ /*   public String send(RabbitUser rabbitUser){
         logger.info("发送者 ------------------------------ 发送时间："+ new Date());
         amqpTemplate.convertAndSend("notify.payment", rabbitUser);   // notify.payment  为队列名称
         return "发送成功";
-    }
+    }*/
 
     /*public String send(String name){
         String context = name;

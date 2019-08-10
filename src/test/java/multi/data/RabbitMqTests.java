@@ -20,7 +20,7 @@ public class RabbitMqTests {
 
     @Test
     public void SenderDemo(){
-        RabbitUser rabbitUser = new RabbitUser("张三","pass123456");
-        sender.send(rabbitUser);
+        /*RabbitUser rabbitUser = new RabbitUser("张三","pass123456");
+        sender.send(rabbitUser);*/
     }
 }

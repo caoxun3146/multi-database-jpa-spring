@@ -37,20 +37,20 @@ spring:
     static-locations: classpath:templates/,classpath:static/
 
 # rabbitmq 配置信息
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+  #rabbitmq:
+    #host: localhost
+    #port: 5672
+    #username: guest
+    #password: guest
 
     #整合rabbitmq消费者
-    listener:
-      concurrency: 5
-      max-concurrency: 10
+    #listener:
+      #concurrency: 5
+      #max-concurrency: 10
       #签收模式
-      acknowledge-mode: manual
+      #acknowledge-mode: manual
       #限流 - 每次只消费一条
-      prefetch: 1
+      #prefetch: 1
 
 # 端口配置,  默认8080
 server:

@@ -26,6 +26,11 @@ public class Account {
     @Column(name = "status") // byte ==  tinyint(2)
     private byte status;
 
+    @Column(name = "union_id")
+    private String unionId;
+
+
+
     public Account() {
 
     }
@@ -85,6 +90,13 @@ public class Account {
         this.status = status;
     }
 
+    public String getUnionId() {
+        return unionId;
+    }
+
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
+    }
 
     //@JsonIgnore
     public List<UserOrder> getUserOrders() {

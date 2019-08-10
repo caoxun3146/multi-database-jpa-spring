@@ -55,15 +55,29 @@ public class AccountController {
         return ResultUtil.success(token).getData() + "";
     }
 
+
     /**
-     * 订单结算
+     * 1 根据淘宝ID查询出数据库对应的userID, 2 根据userID查询出缓存服务器中的access_token
      *
-     * @param tbID
+     *
      * @return
      * @throws IOException
      */
-    @GetMapping(value = "/settlement/{prdID}/{tbID}/{orderId}")
-    public String Settlement(@PathVariable("prdID") String prdID, @PathVariable("tbID") String tbID, @PathVariable("orderId") String orderId) throws IOException, ParseException {
+    @GetMapping(value = "/token/{UserId}")
+    public String findByUserIdToken(@PathVariable("UserId") Long UserId) throws IOException {
+
+        String token = AccessToken.getAccessToken(UserId);
+        return ResultUtil.success(token).getData() + "";
+    }
+
+    /**
+     * 订单结算
+     *
+     * @return
+     * @throws IOException
+     */
+    @GetMapping(value = "/settlement/{orderId}")
+    public String Settlement(@PathVariable("orderId") String orderId) throws IOException, ParseException {
         Settlement settlement = settlementRepository.findByOrderId(orderId);
         if (settlement == null || "".equals(settlement)) {
             // 新增一条淘宝购物记录
@@ -111,7 +125,8 @@ public class AccountController {
         logger.info("响应数据 = {}", result);
         logger.info("订单号 = {}", orderId);
 
-        return ResultUtil.success(result).getData() + ", OrderID: " + orderId;
+        //return ResultUtil.success(result).getData() + ", OrderID: " + orderId;
+        return "{订单ID: " + orderId + "} " + ResultUtil.success(result).getData();
     }
 
 
@@ -214,7 +229,8 @@ public class AccountController {
         logger.info("响应数据 = {}", result);
         logger.info("订单号 = {}", orderId);
 
-        return ResultUtil.success(result).getData() + ", OrderID: " + orderId;
+        //return ResultUtil.success(result).getData() + ", OrderID: " + orderId;
+        return "订单ID: " + orderId +"\r\n" + ResultUtil.success(result).getData();
     }
 
 
@@ -229,16 +245,29 @@ public class AccountController {
     }
 
     /**
-     * 获取用户信息
+     * 获取用户信息  根据 tabao_id
      */
 
-    @RequestMapping("/getuserinfo/{prdID}/{tbID}")
+    @RequestMapping("/getuserinfo_old/{prdID}/{tbID}")
     @ResponseBody
     public Account getUserOrderByUserId(@PathVariable("tbID") String tbID, @PathVariable("prdID") String prdID) {
         byte bt = 1;
         Account account = accountRepository.findByPrdIdAndTbIdAndStatus(prdID, tbID, bt);
         logger.info("------------------------" + JSON.toJSONString(account, true));
         return account;
+    }
+
+    /**
+     * 获取用户ID 根据union_id
+     */
+
+    @RequestMapping("/getuserinfo/{prdID}/{unionID}")
+    @ResponseBody
+    public String getUserOrderByUserId2(@PathVariable("unionID") String unionID, @PathVariable("prdID") String prdID) {
+        byte bt = 1;
+        Account account = accountRepository.findByPrdIdAndUnionIdAndStatus(prdID, unionID, bt);
+        logger.info("------------------------" + JSON.toJSONString(account, true));
+        return account.getId() + "";
     }
 }
 

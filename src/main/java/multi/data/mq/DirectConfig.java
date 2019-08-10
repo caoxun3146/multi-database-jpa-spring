@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class DirectConfig {
-    @Bean
+   /* @Bean
     public Queue paymentNotifyQueue() {
         return new Queue("notify.payment");
-    }
+    }*/
 }

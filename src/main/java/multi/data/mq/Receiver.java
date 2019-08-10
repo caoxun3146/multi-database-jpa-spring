@@ -18,11 +18,11 @@ import java.util.Date;
 public class Receiver {
     private final static Logger logger = LoggerFactory.getLogger(Receiver.class);
 
-    @RabbitHandler
+  /*  @RabbitHandler
     public void process(RabbitUser rabbitUser) {
         logger.info("消费者 =============== " + rabbitUser + ":" + new Date());
     }
-
+*/
    /* @RabbitHandler
     public void process(String Str) {
         logger.info("消费者 =============== " + Str + ":" + new Date());

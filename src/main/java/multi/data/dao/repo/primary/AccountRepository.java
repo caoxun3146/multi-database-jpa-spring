@@ -10,4 +10,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     Account findByTbId(String tbId);
 
     Account findByPrdIdAndTbIdAndStatus(String prdId, String tbId, byte status);  // 注意两个以上条件时, 顺序不能弄反 ,否则查询出的结果为空
+
+    Account findByPrdIdAndUnionIdAndStatus(String prdId, String unionId,byte status);  // 根据union_id查询
 }

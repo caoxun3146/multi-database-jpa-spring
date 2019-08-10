@@ -18,8 +18,8 @@ public class RabbitController {
 
     @GetMapping(value = "/sender/{name}")
     public String sender(@PathVariable("name") String name){
-        RabbitUser rabbitUser = new RabbitUser("张三","test111111");
-        sender.send(rabbitUser);
+      /*  RabbitUser rabbitUser = new RabbitUser("张三","test111111");
+        sender.send(rabbitUser);*/
         return "success";
     }
 }

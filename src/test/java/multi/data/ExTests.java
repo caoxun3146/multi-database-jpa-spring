@@ -12,40 +12,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class AccountTests {
+/*@RunWith(SpringRunner.class)
+@SpringBootTest*/
+public class ExTests extends AccountTests {  // extends AccountTests
 
-    /**
-     * 新增注释
-     */
+    //private final static Logger logger = LoggerFactory.getLogger(AccountTests.class);
     @Autowired
     private AccountRepository accountRepository;
-
-    //private final static Logger logger = LoggerFactory.getLogger(AccountController.class);
-
-    private   Logger logger = LoggerFactory.getLogger(AccountController.class);
-
-    private String str ;
-
-    public String getStr() {
-        return str;
-    }
-
-    public void setStr(String str) {
-        this.logger =  LoggerFactory.getLogger(str);
-    }
-
-    public Logger getLogger() {
-        return logger;
-    }
-
-
     @Test
-    public void getUserInfo(){
+    public void exTest (){
         byte bt = 1 ;
         Account account = accountRepository.findByPrdIdAndTbIdAndStatus("14000","1953957034",bt);
-        logger.info("====================" );
-        logger.info("-----------------------" + JSON.toJSONString(account, true));
+        //logger.info("-----------------------" + JSON.toJSONString(account, true));
+        this.setStr("ExTests.class");
+        this.getLogger().info("1====================" );
+        this.getLogger().info("2-----------------------" + JSON.toJSONString(account, true));
+
+        this.getUserInfo();
     }
+
 }
