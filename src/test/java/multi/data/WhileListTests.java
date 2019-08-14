@@ -37,6 +37,6 @@ public class WhileListTests {
         whileList.setComment("设备白名单1");
         //whileList.setCreateTime(new Date());
         logger.info("==========================66=" + whileList.getComment());
-        whileListService.updateWhileList(whileList);
+        //whileListService.updateWhileList(whileList);
     }
 }

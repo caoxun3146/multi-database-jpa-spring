@@ -132,6 +132,12 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+
+				<!-- 20190529 打包添加  设置启动类-->
+				<configuration>
+					<mainClass>multi.data.MultiDatabaseJpaApplication</mainClass>
+				</configuration>
+
 			</plugin>
 		</plugins>
 	</build>
