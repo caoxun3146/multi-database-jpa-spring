@@ -2,6 +2,7 @@ package multi.data.controller;
 
 import com.alibaba.fastjson.JSON;
 
+import multi.data.dao.model.other.redpacks.JsonRedpackBean;
 import multi.data.dao.model.primary.Account;
 import multi.data.dao.model.primary.AlimamaOrder;
 import multi.data.dao.model.primary.Commodity;
@@ -54,7 +55,6 @@ public class AccountController {
         String token = AccessToken.getAccessToken(account.getId());
         return ResultUtil.success(token).getData() + "";
     }
-
 
     /**
      * 1 根据淘宝ID查询出数据库对应的userID, 2 根据userID查询出缓存服务器中的access_token
@@ -125,7 +125,6 @@ public class AccountController {
         logger.info("响应数据 = {}", result);
         logger.info("订单号 = {}", orderId);
 
-        //return ResultUtil.success(result).getData() + ", OrderID: " + orderId;
         return "{订单ID: " + orderId + "} " + ResultUtil.success(result).getData();
     }
 
@@ -154,14 +153,6 @@ public class AccountController {
                 "影音电器", "45368612", "趣专享", "23950950016", "趣专享高佣", "953470", new Date(), new Date(), 0);
         alimamaOrderService.saveAlimamaOrder(alimamaOrder);
 
-     /*   AlimamaOrder alimamaOrder = new AlimamaOrder(new Date(), new Date(), "运动耳机", 525694095950L, "华胜天齐数码专营店", "华胜天齐数码专营店",
-                1, "88.00", "订单付款", "天猫", "30.01 %", "100.00 %", "19.9900", "6.00",
-                "0.00", "0.00", "30.01 %", "0", "0.00 %", "0", "-", "无线",
-                "--", orderId,
-                "影音电器", "45368612", "趣专享", "23950950016", "趣专享高佣", "953470", new Date(), new Date(), 0);
-        alimamaOrderService.saveAlimamaOrder(alimamaOrder);*/
-
-
         /** 调30301接口上传百川回调数据至用户订单表 **/
         byte bt = 1; //  1: 表示有效账号
         Account account = accountRepository.findByPrdIdAndTbIdAndStatus(prdID, tbID, bt);    // 增加产品ID, 趣专享 14000,  柠檬省钱 14200
@@ -187,17 +178,17 @@ public class AccountController {
      * @return
      * @throws IOException
      */
-    @GetMapping(value = "/purchase_user/{userId}") //lmpurchase
+    /*@GetMapping(value = "/purchase_user/{userId}") //lmpurchase
     public String PurchaseByUserId(@PathVariable("userId") long userId) throws IOException {
 
         String orderId = RandomNumbers.getOrder(); // 生成订单号
 
-        String sourceId = SourceIdUtil.getSourceId(); // 随机获取 1 个商品ID
+        String sourceId = SourceIdUtil.getSourceId(); // 随机获取 1 个商品ID   // 585330318155  返125元
         Commodity commodity = commodityService.findCommodityInfo(sourceId); // 查询商品信息 : 返利比例 , 实际价格
         logger.info("-----------------------" + commodity.getCouponFinalPrice() +"," + commodity.getTkRate() + "sourceID: " + sourceId);
         String payment = String.valueOf(commodity.getCouponFinalPrice());
 
-        /** 生成一条阿里妈妈订单数据, 订单id 和 商品id 与30301接口上传值保持一致 **/
+        // 生成一条阿里妈妈订单数据, 订单id 和 商品id 与30301接口上传值保持一致
         AlimamaOrder alimamaOrder = new AlimamaOrder(new Date(), new Date(), "运动耳机", 525694095950L, "华胜天齐数码专营店", "华胜天齐数码专营店",
                 1, "88.00", "订单付款", "天猫", commodity.getTkRate()+" %", "100.00 %", payment, "6.00",
                 "0.00", "0.00", commodity.getTkRate()+" %", "0", "0.00 %", "0", "-", "无线",
@@ -205,15 +196,8 @@ public class AccountController {
                 "影音电器", "45368612", "趣专享", "23950950016", "趣专享高佣", "953470", new Date(), new Date(), 0);
         alimamaOrderService.saveAlimamaOrder(alimamaOrder);
 
-     /*   AlimamaOrder alimamaOrder = new AlimamaOrder(new Date(), new Date(), "运动耳机", 525694095950L, "华胜天齐数码专营店", "华胜天齐数码专营店",
-                1, "88.00", "订单付款", "天猫", "30.01 %", "100.00 %", "19.9900", "6.00",
-                "0.00", "0.00", "30.01 %", "0", "0.00 %", "0", "-", "无线",
-                "--", orderId,
-                "影音电器", "45368612", "趣专享", "23950950016", "趣专享高佣", "953470", new Date(), new Date(), 0);
-        alimamaOrderService.saveAlimamaOrder(alimamaOrder);*/
 
-
-        /** 调30301接口上传百川回调数据至用户订单表 **/
+        // 调30301接口上传百川回调数据至用户订单表
         byte bt = 1; //  1: 表示有效账号
         Account account = accountRepository.findById(userId); //  查询用户ID
         if (account == null || "".equals(account)) {
@@ -229,8 +213,90 @@ public class AccountController {
         logger.info("响应数据 = {}", result);
         logger.info("订单号 = {}", orderId);
 
-        //return ResultUtil.success(result).getData() + ", OrderID: " + orderId;
         return "订单ID: " + orderId +"\r\n" + ResultUtil.success(result).getData();
+    }*/
+
+
+    /**
+     * 通过用户ID 来下单  ,并使用返现红包
+     * @return
+     * @throws IOException
+     */
+    @GetMapping(value = "/purchase_user/{userId}") //lmpurchase
+    public String PurchaseByUserId2(@PathVariable("userId") long userId) throws IOException {
+
+        String token = AccessToken.getAccessToken(userId); // 获取token
+        String jsonParametersRedPack = JsonData.getRedpackListJsonData(token);  // 生成请求数据
+        String URL_REDPACK = "http://test.vipgift.gmilesquan.com/quActivity/common?funid=50132";  // 下单接口
+        String resultRedPack = HttpClientUtil.SendHttpRequest("POST", URL_REDPACK, jsonParametersRedPack); // 提交下单请求, 获得响应结果
+        JsonRedpackBean jsonRedpackBean = JSON.parseObject(resultRedPack, JsonRedpackBean.class);//json字符串转对象
+
+        String orderId = RandomNumbers.getOrder(); // 生成订单号
+        String sourceId = SourceIdUtil.getSourceId(); // 随机获取 1 个商品ID   // 585330318155  返125元
+        Commodity commodity = commodityService.findCommodityInfo(sourceId); // 查询商品信息 : 返利比例 , 实际价格
+        logger.info("-----------------------" + commodity.getCouponFinalPrice() +"," + commodity.getTkRate() + "sourceID: " + sourceId);
+        String payment = String.valueOf(commodity.getCouponFinalPrice());
+        /** 生成一条阿里妈妈订单数据, 订单id 和 商品id 与30301接口上传值保持一致 **/
+        AlimamaOrder alimamaOrder = new AlimamaOrder(new Date(), new Date(), "运动耳机", 525694095950L, "华胜天齐数码专营店", "华胜天齐数码专营店",
+                1, "88.00", "订单付款", "天猫", commodity.getTkRate()+" %", "100.00 %", payment, "6.00",
+                "0.00", "0.00", commodity.getTkRate()+" %", "0", "0.00 %", "0", "-", "无线",
+                "--", orderId,
+                "影音电器", "45368612", "趣专享", "23950950016", "趣专享高佣", "953470", new Date(), new Date(), 0);
+        alimamaOrderService.saveAlimamaOrder(alimamaOrder);
+
+
+
+        if(jsonRedpackBean.getRebateRedpacks().size()>0){
+            logger.info("-----------------------红包数量: " + jsonRedpackBean.getRebateRedpacks().size());
+            logger.info("-----------------------红包ID: " + jsonRedpackBean.getRebateRedpacks().get(0).getRedpackId());
+
+            // 上传红包信息  33006接口
+            String redpackInfo = JsonData.getJsonDataRedPackInfo(token,sourceId);
+            String URL_Red = "http://test.vipgift.gmilesquan.com/quMall/common?funid=33006";  // 下单接口
+            String result_red = HttpClientUtil.SendHttpRequest("POST", URL_Red, redpackInfo); // 提交下单请求, 获得响应结果
+            logger.info("=====响应数据==== = {}", result_red);
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+            /** 调30301接口上传百川回调数据至用户订单表 **/
+            byte bt = 1; //  1: 表示有效账号
+            Account account = accountRepository.findById(userId); //  查询用户ID
+            if (account == null || "".equals(account)) {
+                logger.info("------------------ 返回对象为空");
+                return "返回对象为空" + account;
+            }
+            String jsonParameters = JsonData.getJsonDataRedPack(token,orderId,account.getPrdId(),sourceId,jsonRedpackBean);
+            String URL = "http://test.vipgift.gmilesquan.com/quMall/common?funid=30101";  // 下单接口
+            String result = HttpClientUtil.SendHttpRequest("POST", URL, jsonParameters); // 提交下单请求, 获得响应结果
+
+            logger.info("----------------------------------------------------------------------------");
+            logger.info("响应数据 = {}", result);
+            logger.info("订单号 = {}", orderId);
+            return "订单ID: " + orderId +"\r\n" + ResultUtil.success(result).getData();
+
+        }else {
+            /** 调30301接口上传百川回调数据至用户订单表 **/
+            byte bt = 1; //  1: 表示有效账号
+            Account account = accountRepository.findById(userId); //  查询用户ID
+            if (account == null || "".equals(account)) {
+                logger.info("------------------ 返回对象为空");
+                return "返回对象为空" + account;
+            }
+            String jsonParameters = JsonData.getJsonData(token,orderId,account.getPrdId(),sourceId);
+            String URL = "http://test.vipgift.gmilesquan.com/quMall/common?funid=30101";  // 下单接口
+            String result = HttpClientUtil.SendHttpRequest("POST", URL, jsonParameters); // 提交下单请求, 获得响应结果
+
+            logger.info("----------------------------------------------------------------------------");
+            logger.info("响应数据 = {}", result);
+            logger.info("订单号 = {}", orderId);
+            return "订单ID: " + orderId +"\r\n" + ResultUtil.success(result).getData();
+        }
+
     }
 
 
