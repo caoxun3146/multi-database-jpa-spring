@@ -128,7 +128,6 @@ public class AccountController {
         return "{订单ID: " + orderId + "} " + ResultUtil.success(result).getData();
     }
 
-
     /**
      * 趣专享14000 ; 柠檬省钱14200, 下单,   通过匹配阿里妈妈订单数据, 来计算返利金额
      *
@@ -216,7 +215,6 @@ public class AccountController {
         return "订单ID: " + orderId +"\r\n" + ResultUtil.success(result).getData();
     }*/
 
-
     /**
      * 通过用户ID 来下单  ,并使用返现红包
      * @return
@@ -244,8 +242,6 @@ public class AccountController {
                 "影音电器", "45368612", "趣专享", "23950950016", "趣专享高佣", "953470", new Date(), new Date(), 0);
         alimamaOrderService.saveAlimamaOrder(alimamaOrder);
 
-
-
         if(jsonRedpackBean.getRebateRedpacks().size()>0){
             logger.info("-----------------------红包数量: " + jsonRedpackBean.getRebateRedpacks().size());
             logger.info("-----------------------红包ID: " + jsonRedpackBean.getRebateRedpacks().get(0).getRedpackId());
@@ -261,7 +257,6 @@ public class AccountController {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
 
             /** 调30301接口上传百川回调数据至用户订单表 **/
             byte bt = 1; //  1: 表示有效账号
@@ -299,7 +294,6 @@ public class AccountController {
 
     }
 
-
     /**
      * 生成订单号
      *
@@ -313,7 +307,6 @@ public class AccountController {
     /**
      * 获取用户信息  根据 tabao_id
      */
-
     @RequestMapping("/getuserinfo_old/{prdID}/{tbID}")
     @ResponseBody
     public Account getUserOrderByUserId(@PathVariable("tbID") String tbID, @PathVariable("prdID") String prdID) {
@@ -326,7 +319,6 @@ public class AccountController {
     /**
      * 获取用户ID 根据union_id
      */
-
     @RequestMapping("/getuserinfo/{prdID}/{unionID}")
     @ResponseBody
     public String getUserOrderByUserId2(@PathVariable("unionID") String unionID, @PathVariable("prdID") String prdID) {

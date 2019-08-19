@@ -52,6 +52,14 @@ spring:
       #限流 - 每次只消费一条
       #prefetch: 1
 
+#redis配置
+  redis:
+    host: 139.196.82.192
+    password: vipgiftQuzhuanxiang
+    database: 0
+    port: 6379
+    timeout: 3S
+
 # 端口配置,  默认8080
 server:
   port: 8080

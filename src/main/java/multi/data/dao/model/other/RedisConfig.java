@@ -1,20 +1,37 @@
 package multi.data.dao.model.other;
 
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.KeyGenerator;
+import org.springframework.cache.jcache.config.JCacheConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPoolConfig;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 项目操作redis是使用的RedisTemplate方式
  */
 
-@Component
+/*@Component
 @Configuration
 @EnableAutoConfiguration
 public class RedisConfig {
@@ -42,7 +59,55 @@ public class RedisConfig {
         return template;
     }
 
+}*/
+
+
+
+@Configuration
+//@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 3600 * 12)
+@EnableCaching
+public class RedisConfig extends CachingConfigurerSupport {  //RedisAutoConfig
+
+
+    @Bean
+    public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+        RedisCacheManager rcm = RedisCacheManager.create(connectionFactory);
+        //设置缓存过期时间
+        //Map<String, Long> expires = new HashMap<>();
+        //expires.put("12h",3600 * 12L);
+        //expires.put("1h",3600 * 1L);
+        //expires.put("10m",60 * 5L);
+        //rcm.setExpires(expires);
+
+        //rcm.setDefaultExpiration(10); 	//秒
+        return rcm;
+    }
+
+
+    @Bean
+    public RedisTemplate redisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<Object, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(connectionFactory);
+
+        //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
+        Jackson2JsonRedisSerializer serializer = new Jackson2JsonRedisSerializer(Object.class);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        serializer.setObjectMapper(mapper);
+
+        template.setValueSerializer(serializer);
+        //使用StringRedisSerializer来序列化和反序列化redis的key值
+        template.setKeySerializer(new StringRedisSerializer());
+        template.afterPropertiesSet();
+        return template;
+    }
+
 }
+
+
+
 
 /*@Configuration
 @EnableAutoConfiguration
